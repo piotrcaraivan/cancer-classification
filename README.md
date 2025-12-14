@@ -21,6 +21,37 @@ X:/cancer_classification/.venv/Scripts/python.exe cancer_prediction.py cv --fold
 X:/cancer_classification/.venv/Scripts/python.exe cancer_prediction.py predict --model artifacts/model.joblib --sample-index 0
 ```
 
+### If you prefer `make` (Mac/Linux)
+Assuming `VENV=.venv/bin/python` in your Makefile:
+
+```makefile
+# 1. Install deps
+install:
+  $(VENV) -m pip install -r requirements.txt
+
+# 2. Train
+train:
+  $(VENV) cancer_prediction.py train
+
+# 3. Evaluate
+eval:
+  $(VENV) cancer_prediction.py evaluate --model artifacts/model.joblib --split artifacts/split.joblib
+
+# 4. Cross-validation
+cv:
+  $(VENV) cancer_prediction.py cv --folds 5
+
+# 5. Predict sample
+predict:
+  $(VENV) cancer_prediction.py predict --model artifacts/model.joblib --sample-index 0
+
+# 6. Clean artifacts (models/plots/metrics)
+clean:
+  rm -rf artifacts/*
+```
+
+On Windows, use the PowerShell commands from the main Quickstart block instead of `make`.
+
 Artifacts (after `train`):
 - `artifacts/model.joblib` — trained pipeline (StandardScaler + LogisticRegression)
 - `artifacts/split.joblib` — saved test split (X_test, y_test, feature names)
